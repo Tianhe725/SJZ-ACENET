@@ -18,14 +18,12 @@ body{
   color:#0ff;
 }
 
-/* ===== 科技粒子背景 ===== */
 canvas{
   position:absolute;
   top:0;
   left:0;
 }
 
-/* ===== 登录框 ===== */
 .box{
   position:relative;
   z-index:2;
@@ -41,10 +39,8 @@ h1{
   letter-spacing:4px;
   font-weight:normal;
   text-shadow:0 0 15px #0ff;
-  margin-bottom:15px;
 }
 
-/* 输入结构 */
 .input-box{
   position:relative;
   width:240px;
@@ -60,19 +56,14 @@ input{
   outline:none;
 }
 
-/* 眼睛按钮 */
 .eye{
   position:absolute;
   right:10px;
   top:50%;
   transform:translateY(-50%);
   cursor:pointer;
-  font-size:14px;
-  color:#0ff;
-  user-select:none;
 }
 
-/* 登录按钮 */
 button{
   width:240px;
   padding:10px;
@@ -84,36 +75,13 @@ button{
   font-weight:bold;
 }
 
-/* ===== 版权系统UI ===== */
 .footer{
   position:absolute;
   bottom:12px;
   width:100%;
   text-align:center;
-  z-index:2;
   font-size:12px;
-  letter-spacing:2px;
-  color:rgba(0,255,255,0.65);
-}
-
-.footer .brand{
-  color:#0ff;
-  text-shadow:0 0 8px #0ff;
-}
-
-.footer .sep{
-  margin:0 6px;
-  opacity:0.6;
-}
-
-.footer .year{
-  color:rgba(0,255,255,0.7);
-}
-
-.footer .project{
-  margin-left:6px;
-  color:rgba(0,255,255,0.9);
-  letter-spacing:3px;
+  color:rgba(0,255,255,0.6);
 }
 </style>
 </head>
@@ -125,50 +93,39 @@ button{
 <div class="box">
   <h1>ACE.NET</h1>
 
-  <!-- 账号 -->
   <div class="input-box">
-    <input id="user" placeholder="ACCOUNT NAME">
+    <input id="user" placeholder="账户名字">
   </div>
 
-  <!-- 密码 -->
   <div class="input-box">
-    <input id="pass" type="password" placeholder="PASSWORD">
+    <input id="pass" type="password" placeholder="密码">
     <span class="eye" onclick="togglePass()">👁</span>
   </div>
 
   <button onclick="login()">ENTER</button>
 </div>
 
-<!-- 正式版权 -->
-<div class="footer">
-  <span class="brand">天禾工作室</span>
-  <span class="sep">©</span>
-  <span class="year">2026</span>
-  <span class="project">SJZ-ACENET</span>
-</div>
+<div class="footer">天禾工作室© 2026 SJZ-ACENET</div>
 
 <script>
-/* ===== 账号密码 ===== */
-const USER = "ACE";
-const PASS = "acefyz100725";
+const USER = "ACEZSCYYQL";
+const PASS = "ACECYDLMM2026";
 
-/* ===== 密码显示切换 ===== */
 function togglePass(){
   const p = document.getElementById("pass");
   p.type = (p.type === "password") ? "text" : "password";
 }
 
-/* ===== 登录跳转 ===== */
 function login(){
   const u = document.getElementById("user").value;
   const p = document.getElementById("pass").value;
 
   if(u === USER && p === PASS){
-    window.location.href = "https://tianhe725.github.io/SJZ-ACENET/";
+    window.location.href = "dashboard.html";
   }
 }
 
-/* ===== 科技粒子系统 ===== */
+/* 粒子背景 */
 const canvas = document.getElementById("c");
 const ctx = canvas.getContext("2d");
 
@@ -192,8 +149,8 @@ function draw(){
   ctx.fillStyle="#0ff";
 
   particles.forEach(p=>{
-    p.x += p.vx;
-    p.y += p.vy;
+    p.x+=p.vx;
+    p.y+=p.vy;
 
     if(p.x<0||p.x>canvas.width) p.vx*=-1;
     if(p.y<0||p.y>canvas.height) p.vy*=-1;
@@ -203,25 +160,8 @@ function draw(){
     ctx.fill();
   });
 
-  for(let i=0;i<particles.length;i++){
-    for(let j=i+1;j<particles.length;j++){
-      let dx = particles[i].x - particles[j].x;
-      let dy = particles[i].y - particles[j].y;
-      let dist = Math.sqrt(dx*dx + dy*dy);
-
-      if(dist < 120){
-        ctx.strokeStyle="rgba(0,255,255,0.15)";
-        ctx.beginPath();
-        ctx.moveTo(particles[i].x,particles[i].y);
-        ctx.lineTo(particles[j].x,particles[j].y);
-        ctx.stroke();
-      }
-    }
-  }
-
   requestAnimationFrame(draw);
 }
-
 draw();
 </script>
 
