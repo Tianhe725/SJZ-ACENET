@@ -12,61 +12,67 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  background:#000;
+  overflow:hidden;
   font-family:Arial;
   color:#0ff;
-  overflow:hidden;
-  background:#000;
 }
 
-/* 科技网格背景 */
-body::before{
-  content:"";
+/* ===== 科技粒子背景 ===== */
+canvas{
   position:absolute;
-  width:200%;
-  height:200%;
-  background:
-    linear-gradient(#0ff2 1px, transparent 1px),
-    linear-gradient(90deg, #0ff2 1px, transparent 1px);
-  background-size:50px 50px;
-  transform:rotate(15deg);
-  animation:move 10s linear infinite;
-  opacity:0.15;
+  top:0;
+  left:0;
 }
 
-@keyframes move{
-  from{transform:translate(0,0) rotate(15deg);}
-  to{transform:translate(-50px,-50px) rotate(15deg);}
-}
-
-/* 发光核心 */
+/* ===== 登录框 ===== */
 .box{
   position:relative;
   z-index:2;
   text-align:center;
   padding:30px;
-  border:1px solid #0ff4;
-  box-shadow:0 0 20px #0ff3;
-  backdrop-filter:blur(5px);
+  border:1px solid #0ff3;
+  box-shadow:0 0 25px #0ff2;
+  backdrop-filter: blur(8px);
+  background:rgba(0,0,0,0.35);
 }
 
 h1{
-  margin-bottom:20px;
   letter-spacing:4px;
   font-weight:normal;
-  text-shadow:0 0 10px #0ff;
+  text-shadow:0 0 15px #0ff;
+  margin-bottom:15px;
+}
+
+/* 输入结构 */
+.input-box{
+  position:relative;
+  width:240px;
+  margin:10px auto;
 }
 
 input{
-  display:block;
-  margin:10px auto;
+  width:100%;
   padding:10px;
-  width:220px;
   background:#000;
-  border:1px solid #0ff5;
+  border:1px solid #0ff6;
   color:#0ff;
   outline:none;
 }
 
+/* 眼睛按钮 */
+.eye{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  font-size:14px;
+  color:#0ff;
+  user-select:none;
+}
+
+/* 登录按钮 */
 button{
   width:240px;
   padding:10px;
@@ -78,37 +84,81 @@ button{
   font-weight:bold;
 }
 
-small{
-  display:block;
-  margin-top:5px;
-  cursor:pointer;
-  color:#0ff8;
+/* ===== 版权系统UI ===== */
+.footer{
+  position:absolute;
+  bottom:12px;
+  width:100%;
+  text-align:center;
+  z-index:2;
+  font-size:12px;
+  letter-spacing:2px;
+  color:rgba(0,255,255,0.65);
+}
+
+.footer .brand{
+  color:#0ff;
+  text-shadow:0 0 8px #0ff;
+}
+
+.footer .sep{
+  margin:0 6px;
+  opacity:0.6;
+}
+
+.footer .year{
+  color:rgba(0,255,255,0.7);
+}
+
+.footer .project{
+  margin-left:6px;
+  color:rgba(0,255,255,0.9);
+  letter-spacing:3px;
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="c"></canvas>
+
 <div class="box">
   <h1>ACE.NET</h1>
 
-  <input id="user" placeholder="USERNAME">
-  <input id="pass" type="password" placeholder="PASSWORD">
+  <!-- 账号 -->
+  <div class="input-box">
+    <input id="user" placeholder="ACCOUNT NAME">
+  </div>
 
-  <small onclick="togglePass()">SHOW / HIDE</small>
+  <!-- 密码 -->
+  <div class="input-box">
+    <input id="pass" type="password" placeholder="PASSWORD">
+    <span class="eye" onclick="togglePass()">👁</span>
+  </div>
 
   <button onclick="login()">ENTER</button>
 </div>
 
+<!-- 正式版权 -->
+<div class="footer">
+  <span class="brand">天禾工作室</span>
+  <span class="sep">©</span>
+  <span class="year">2026</span>
+  <span class="project">SJZ-ACENET</span>
+</div>
+
 <script>
+/* ===== 账号密码 ===== */
 const USER = "ACE";
 const PASS = "acefyz100725";
 
+/* ===== 密码显示切换 ===== */
 function togglePass(){
   const p = document.getElementById("pass");
   p.type = (p.type === "password") ? "text" : "password";
 }
 
+/* ===== 登录跳转 ===== */
 function login(){
   const u = document.getElementById("user").value;
   const p = document.getElementById("pass").value;
@@ -117,6 +167,62 @@ function login(){
     window.location.href = "https://tianhe725.github.io/SJZ-ACENET/";
   }
 }
+
+/* ===== 科技粒子系统 ===== */
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<120;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    vx:(Math.random()-0.5)*1.2,
+    vy:(Math.random()-0.5)*1.2
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle="#0ff";
+
+  particles.forEach(p=>{
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if(p.x<0||p.x>canvas.width) p.vx*=-1;
+    if(p.y<0||p.y>canvas.height) p.vy*=-1;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,1.5,0,Math.PI*2);
+    ctx.fill();
+  });
+
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      let dx = particles[i].x - particles[j].x;
+      let dy = particles[i].y - particles[j].y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+
+      if(dist < 120){
+        ctx.strokeStyle="rgba(0,255,255,0.15)";
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+
+draw();
 </script>
 
 </body>
