@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SJZ-ACENET SYSTEM</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: #05070A;
+    font-family: 'Arial', sans-serif;
+    color: #EAF4FF;
+}
+
+/* Background Canvas */
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Scan line */
+.scanline {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: rgba(0,229,255,0.3);
+    animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* Login box */
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    padding: 30px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,229,255,0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(0,229,255,0.2);
+}
+
+/* Title */
+.title {
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+/* Input */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(0,229,255,0.3);
+    color: #fff;
+    outline: none;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: rgba(0,229,255,0.2);
+    border: 1px solid #00E5FF;
+    color: #00E5FF;
+    cursor: pointer;
+}
+
+button:hover {
+    background: rgba(0,229,255,0.4);
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+<div class="scanline"></div>
+
+<div class="login-box">
+    <div class="title">SJZ-ACENET ACCESS</div>
+    <input type="text" placeholder="USERNAME">
+    <input type="password" placeholder="PASSWORD">
+    <button onclick="login()">AUTHENTICATE</button>
+</div>
+
+<script>
+function login() {
+    alert("AUTHENTICATING...");
+}
+  // Part 2 - JavaScript Animation + Login System + Particle Network
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 120; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6
+    });
+}
+
+function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00E5FF";
+    for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 120) {
+                ctx.strokeStyle = "rgba(0,229,255,0.15)";
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+
+    updateParticles();
+    requestAnimationFrame(drawParticles);
+}
+
+function updateParticles() {
+    for (let p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    }
+}
+
+drawParticles();
+
+// Login override
+function login() {
+    const box = document.querySelector(".login-box");
+    box.innerHTML = `
+        <div style="text-align:center;font-size:18px;letter-spacing:2px;">
+            AUTHENTICATING...
+        </div>
+        <br>
+        <div style="text-align:center;">████████████████████ 100%</div>
+        <br>
+        <div style="text-align:center;color:#00E5FF;">
+            ACCESS GRANTED
+        </div>
+        <br>
+        <div style="text-align:center;font-size:14px;">
+            Welcome to SJZ-ACENET
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
+/* Part 3 - Dashboard + Final UI + System Layer */
+
+setTimeout(() => {
+    document.body.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") openDashboard();
+    });
+}, 500);
+
+function openDashboard() {
+    document.body.innerHTML = `
+    <div style="
+        position:absolute;
+        width:100%;
+        height:100%;
+        background:#05070A;
+        color:#EAF4FF;
+        font-family:Arial;
+    ">
+        <div style="
+            padding:20px;
+            border-bottom:1px solid rgba(0,229,255,0.3);
+            display:flex;
+            justify-content:space-between;
+        ">
+            <div>SJZ-ACENET</div>
+            <div style="color:#00E5FF;">ONLINE</div>
+        </div>
+
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:20px;
+            padding:20px;
+        ">
+            <div style="background:rgba(255,255,255,0.05);padding:20px;border:1px solid rgba(0,229,255,0.2);">
+                NETWORK CORE
+            </div>
+            <div style="background:rgba(255,255,255,0.05);padding:20px;border:1px solid rgba(0,229,255,0.2);">
+                SECURITY SYSTEM
+            </div>
+            <div style="background:rgba(255,255,255,0.05);padding:20px;border:1px solid rgba(0,229,255,0.2);">
+                AI MODULE
+            </div>
+            <div style="background:rgba(255,255,255,0.05);padding:20px;border:1px solid rgba(0,229,255,0.2);">
+                DATABASE
+            </div>
+            <div style="background:rgba(255,255,255,0.05);padding:20px;border:1px solid rgba(0,229,255,0.2);">
+                ANALYTICS
+            </div>
+            <div style="background:rgba(255,255,255,0.05);padding:20px;border:1px solid rgba(0,229,255,0.2);">
+                SETTINGS
+            </div>
+        </div>
+
+        <div style="
+            position:absolute;
+            bottom:20px;
+            width:100%;
+            text-align:center;
+            font-size:12px;
+            color:rgba(255,255,255,0.4);
+        ">
+            SJZ-ACENET SYSTEM • TIANHE STUDIO • 2026
+        </div>
+    </div>
+    `;
+}
+</script>
+
+</body>
+</html>
