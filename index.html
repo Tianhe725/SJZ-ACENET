@@ -12,18 +12,48 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#000;
   font-family:Arial;
-  color:#fff;
+  color:#0ff;
+  overflow:hidden;
+  background:#000;
 }
 
+/* 科技网格背景 */
+body::before{
+  content:"";
+  position:absolute;
+  width:200%;
+  height:200%;
+  background:
+    linear-gradient(#0ff2 1px, transparent 1px),
+    linear-gradient(90deg, #0ff2 1px, transparent 1px);
+  background-size:50px 50px;
+  transform:rotate(15deg);
+  animation:move 10s linear infinite;
+  opacity:0.15;
+}
+
+@keyframes move{
+  from{transform:translate(0,0) rotate(15deg);}
+  to{transform:translate(-50px,-50px) rotate(15deg);}
+}
+
+/* 发光核心 */
 .box{
+  position:relative;
+  z-index:2;
   text-align:center;
+  padding:30px;
+  border:1px solid #0ff4;
+  box-shadow:0 0 20px #0ff3;
+  backdrop-filter:blur(5px);
 }
 
 h1{
-  letter-spacing:3px;
+  margin-bottom:20px;
+  letter-spacing:4px;
   font-weight:normal;
+  text-shadow:0 0 10px #0ff;
 }
 
 input{
@@ -31,31 +61,28 @@ input{
   margin:10px auto;
   padding:10px;
   width:220px;
-  border:1px solid #555;
-  background:#111;
-  color:#fff;
+  background:#000;
+  border:1px solid #0ff5;
+  color:#0ff;
+  outline:none;
 }
 
 button{
   width:240px;
   padding:10px;
-  background:#fff;
-  border:none;
-  cursor:pointer;
   margin-top:10px;
+  background:#0ff;
+  border:none;
+  color:#000;
+  cursor:pointer;
+  font-weight:bold;
 }
 
 small{
-  cursor:pointer;
   display:block;
   margin-top:5px;
-  color:#aaa;
-}
-
-#error{
-  color:red;
-  font-size:12px;
-  margin-top:8px;
+  cursor:pointer;
+  color:#0ff8;
 }
 </style>
 </head>
@@ -66,14 +93,11 @@ small{
   <h1>ACE.NET</h1>
 
   <input id="user" placeholder="USERNAME">
-  
   <input id="pass" type="password" placeholder="PASSWORD">
 
-  <small onclick="togglePass()">SHOW / HIDE PASSWORD</small>
+  <small onclick="togglePass()">SHOW / HIDE</small>
 
   <button onclick="login()">ENTER</button>
-
-  <div id="error"></div>
 </div>
 
 <script>
@@ -91,8 +115,6 @@ function login(){
 
   if(u === USER && p === PASS){
     window.location.href = "https://tianhe725.github.io/SJZ-ACENET/";
-  }else{
-    document.getElementById("error").innerText = "ACCESS DENIED";
   }
 }
 </script>
