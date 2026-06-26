@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>ACE.NET LOGIN</title>
+<title>ACE.NET</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -13,34 +13,43 @@ body{
   justify-content:center;
   align-items:center;
   background:#000;
-  color:#0f0;
   font-family:Arial;
+  color:#fff;
 }
 
 .box{
-  width:300px;
-  padding:20px;
-  border:1px solid #0f0;
   text-align:center;
 }
 
+h1{
+  letter-spacing:3px;
+  font-weight:normal;
+}
+
 input{
-  width:90%;
-  margin:8px 0;
-  padding:8px;
+  display:block;
+  margin:10px auto;
+  padding:10px;
+  width:220px;
+  border:1px solid #555;
   background:#111;
-  border:1px solid #0f0;
-  color:#0f0;
+  color:#fff;
 }
 
 button{
-  width:95%;
+  width:240px;
   padding:10px;
-  margin-top:10px;
-  background:#0f0;
-  color:#000;
+  background:#fff;
   border:none;
   cursor:pointer;
+  margin-top:10px;
+}
+
+small{
+  cursor:pointer;
+  display:block;
+  margin-top:5px;
+  color:#aaa;
 }
 
 #error{
@@ -54,18 +63,27 @@ button{
 <body>
 
 <div class="box">
-  <h3>ACE.NET ACCESS</h3>
+  <h1>ACE.NET</h1>
 
   <input id="user" placeholder="USERNAME">
+  
   <input id="pass" type="password" placeholder="PASSWORD">
 
-  <button onclick="login()">LOGIN</button>
+  <small onclick="togglePass()">SHOW / HIDE PASSWORD</small>
+
+  <button onclick="login()">ENTER</button>
+
   <div id="error"></div>
 </div>
 
 <script>
 const USER = "ACE";
 const PASS = "acefyz100725";
+
+function togglePass(){
+  const p = document.getElementById("pass");
+  p.type = (p.type === "password") ? "text" : "password";
+}
 
 function login(){
   const u = document.getElementById("user").value;
